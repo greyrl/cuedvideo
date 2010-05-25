@@ -1,0 +1,71 @@
+﻿<html>
+<head>
+    <title>Flash_demo</title>
+    
+    <script src="js/swfobject.js" type="text/javascript"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <script type="text/javascript">
+        var loaded = false; 
+        function playVideo(_event) {
+            _event.preventDefault();
+            if (! loaded) {
+                alert("please wait for video to load...");
+                return;
+            }
+            var movie = $("#videodemo")[0];
+            $(".cue").each(function() {
+                movie.addCue($(".time", this).val(), $(".url", this).val());
+            });
+            movie.playVideo();
+        };
+        function pauseVideo(_event) {
+            _event.preventDefault();
+            if (! loaded) {
+                alert("please wait for video to load...");
+                return;
+            }
+            $("#videodemo")[0].pauseVideo();
+        };
+        function videoloaded() { loaded = true; };
+        function cueMet(url) {
+            $("#slide").attr("src", url);
+        };
+        $(document).ready(function() {
+            // embed the video
+            var flashvars = {};
+            var params = {
+                menu: "false",
+                scale: "noScale",
+                allowFullscreen: "true",
+                allowScriptAccess: "always",
+                bgcolor: "#FFFFFF"
+            };
+            var attributes = { 
+                id: "videodemo",
+                type: "application/x-shockwave-flash" 
+            };
+            swfobject.embedSWF("Flashdemo.swf", "videodemo", "200px", "200px", "9.0.0", 
+                "expressInstall.swf", flashvars, params, attributes);
+            $("#play").click(playVideo);
+            $("#pause").click(pauseVideo);
+        });
+
+    </script>
+</head>
+<body>
+    <div>
+        <span id="videodemo">can't load flash!!!</span>
+        <img id="slide" src="http://www.cise.ufl.edu/~ss7/start.png" style="height:200px; width:200px;"/>
+    </div>
+     <a href="#" id="play">play</a>
+     <a href="#" id="pause">pause</a>
+     <div class="cue">
+         <input class="time" value="3"/><span> time</span>
+         <input class="url" style="width: 400px;" value="http://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/California_1.svg/385px-California_1.svg.png"/><span> url</span>
+     </div>
+     <div class="cue">
+         <input class="time" value="9"/><span> time</span>
+         <input class="url" style="width: 400px;" value="http://bahava.files.wordpress.com/2008/04/298649052_2b17d5bec9.jpg"/><span> url</span>
+     </div>
+</body>
+</html>
